@@ -27,6 +27,26 @@ class Model:
 		self._data['C_variation'] = self._data['C_SD']/self._data['C_mean']
 		self._data['D_variation'] = self._data['D_SD']/self._data['D_mean']
 
+	def order(self):
+		a_var = self._data['A_variation'].mean()
+		b_var = self._data['B_variation'].mean()
+		c_var = self._data['C_variation'].mean()
+		d_var = self._data['D_variation'].mean()
+
+		list = [a_var,b_var,c_var,d_var]
+		list.sort()
+		position = []
+		for i in list:
+			if(i == a_var):
+				position.append("A")
+			elif(i == b_var):
+				position.append("B")
+			elif(i == c_var):
+				position.append("C")
+			else:
+				position.append("D")
+		print(position)
+
 dataset = "Simulated_data_ageing.csv"
 model = Model(dataset)
 
@@ -34,6 +54,10 @@ model.addMean()
 model.addSD()
 model.addVariation()
 
-model.checkData()
+#model.checkData()
+
+model.order()
+
+
 
 

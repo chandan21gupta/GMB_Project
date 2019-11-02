@@ -79,6 +79,14 @@ class Model:
 	def add_outlier_Z(self):
 		self._data['outlier_Z'] = self._data.apply(self.outlier_Z,axis = 1)
 
+	def add_IQR(self):
+		Q1 = self._data.loc[:,['A_normalize', 'B_normalize', 'C_normalize', 'D_normalize']].quantile(0.25)
+		Q3 = self._data.loc[:,['A_normalize', 'B_normalize', 'C_normalize', 'D_normalize']].quantile(0.75)
+		IQR = Q3-Q1
+		normalizedCols = self._data.loc[:,['A_normalize', 'B_normalize', 'C_normalize', 'D_normalize']]
+		checkOutliers = ((normalizedCols < (Q1 - 1.5 * IQR)) | (normalizedCols > (Q3 + 1.5 * IQR))).any(axis=1)
+		self._data['outlier_IQR'] = checkOutliers
+
 dataset = "Simulated_data_ageing.csv"
 model = Model(dataset)
 

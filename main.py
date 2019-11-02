@@ -1,5 +1,5 @@
 import pandas as pd
-
+import seaborn as sns
 class Model:
 
 	def __init__(self,dataset):
@@ -61,13 +61,16 @@ class Model:
 
 	def outlier_Z(self,col):
 		if(col['A_Z'] < 3 and col['A_Z'] > -3):
-			if(col['B_Z'] < 3 and col['B_Z'] > -3):
+			if((col['B_Z'] < 3 and col['B_Z'] > -3) and (col['C_Z'] < 3 and col['C_Z'] > -3)):
 				return "Yes"
-			elif(col['C_Z'] < 3 and col['C_Z'] > -3):
-				return "No"
+			elif((col['C_Z'] < 3 and col['C_Z'] > -3) and (col['D_Z'] < 3 and col['D_Z'] > -3)):
+				return "Yes"
+			elif((col['D_Z'] < 3 and col['D_Z'] > -3) and col['B_Z'] < 3 and col['B_Z']):
+				return "Yes"
+			return "No"
 
 		elif(col['B_Z'] < 3 and col['B_Z'] > -3):
-			if(col['C_Z'] < 3 and col['C_Z'] > -3):
+			if((col['C_Z'] < 3 and col['C_Z'] > -3) and (col['D_Z'] < 3 and col['D_Z'] > -3)):
 				return "Yes"
 			return "No"
 		return "No"
@@ -75,8 +78,6 @@ class Model:
 
 	def add_outlier_Z(self):
 		self._data['outlier_Z'] = self._data.apply(self.outlier_Z,axis = 1)
-
-
 
 dataset = "Simulated_data_ageing.csv"
 model = Model(dataset)

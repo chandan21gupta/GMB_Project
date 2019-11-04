@@ -28,10 +28,10 @@ class Model:
 	# 	self._data['D_IQR'] = self._data[['D_1','D_2','D_3','D_4']].std(axis=1)
 
 	def addZscore(self):
-		self._data['A_Z'] = (self._data['A_mean'] - self._data['A_mean'].mean())/self._data['A_SD'].std()
-		self._data['B_Z'] = (self._data['B_mean'] - self._data['B_mean'].mean())/self._data['B_SD'].std()
-		self._data['C_Z'] = (self._data['C_mean'] - self._data['C_mean'].mean())/self._data['C_SD'].std()
-		self._data['D_Z'] = (self._data['D_mean'] - self._data['D_mean'].mean())/self._data['D_SD'].std()
+		self._data['A_Z'] = (self._data['A_normalize'] - self._data['A_normalize'].mean())/self._data['A_normalize'].std()
+		self._data['B_Z'] = (self._data['B_normalize'] - self._data['B_normalize'].mean())/self._data['B_normalize'].std()
+		self._data['C_Z'] = (self._data['C_normalize'] - self._data['C_normalize'].mean())/self._data['C_normalize'].std()
+		self._data['D_Z'] = (self._data['D_normalize'] - self._data['D_normalize'].mean())/self._data['D_normalize'].std()
 
 	def normalize(self):
 		self._data['A_normalize'] = self._data['A_SD']/self._data['A_mean']

@@ -94,7 +94,8 @@ class Model:
 		self._data['D_variance'] = self._data[['D_1','D_2','D_3']].var(axis=1)
 
 	def t_test(self):
-		self._data['T_mean'] = abs(self._data['A_mean']-self._data['D_mean'])/(((self._data['A_variance'])**2)+(self._data['D_variance'])**2/3)**(0.5)
+		self._data['T_mean'] = abs(self._data['A_mean']-self._data['D_mean'])/(((self._data['A_variance']))+(self._data['D_variance'])/3)**(0.5)
+		self._data.sort_values(by="T_mean")
 
 dataset = "Simulated_data_ageing.csv"
 model = Model(dataset)

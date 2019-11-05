@@ -8,7 +8,6 @@ data = data.values
 column1 = np.array(data[1:, 1]).astype(np.float)  # Just an example Column
 column2 = np.array(data[1:, 2]).astype(np.float)  # Must be our normalized value
 
-
 # print(column1, column2)
 
 def calculateT(D, sqD, n):

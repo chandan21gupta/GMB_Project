@@ -84,6 +84,11 @@ class Model:
 		checkOutliers = ((normalizedCols < (Q1 - 1.5 * IQR)) | (normalizedCols > (Q3 + 1.5 * IQR))).any(axis=1)
 		self._data['outlier_IQR'] = checkOutliers
 
+	def sample(self):
+		self._data['A_mean'] = self._data[['A_1','A_2','A_3']].mean(axis=1)
+		self._data['D_mean'] = self._data[['D_1','D_2','D_3']].mean(axis=1)
+		
+
 dataset = "Simulated_data_ageing.csv"
 model = Model(dataset)
 
@@ -93,13 +98,15 @@ model.normalize()
 
 #model.checkData()
 
-model.addZscore()
+#model.addZscore()
 
-model.order()
+#model.order()
 
-model.add_outlier_Z()
+#model.add_outlier_Z()
 
-model.checkData()
+model.sample()
+
+#model.checkData()
 
 
 

@@ -1,4 +1,5 @@
 import pandas as pd
+from scipy.stats import ttest_ind
 #import seaborn as sns
 class Model:
 
@@ -84,10 +85,16 @@ class Model:
 		checkOutliers = ((normalizedCols < (Q1 - 1.5 * IQR)) | (normalizedCols > (Q3 + 1.5 * IQR))).any(axis=1)
 		self._data['outlier_IQR'] = checkOutliers
 
-	def sample(self):
+	def mean(self):
 		self._data['A_mean'] = self._data[['A_1','A_2','A_3']].mean(axis=1)
 		self._data['D_mean'] = self._data[['D_1','D_2','D_3']].mean(axis=1)
-		
+
+	def variance(self):
+		self._data['A_variance'] = self._data[['A_1','A_2','A_3']].var(axis=1)
+		self._data['D_variance'] = self._data[['D_1','D_2','D_3']].var(axis=1)
+
+	def t_test(self):
+		self._data['T_mean'] = abs(self._data['A_mean']-self._data['D_mean'])/(((self._data['A_variance'])**2)+(self._data['D_variance'])**2/3)**(0.5)
 
 dataset = "Simulated_data_ageing.csv"
 model = Model(dataset)
@@ -95,6 +102,14 @@ model = Model(dataset)
 model.addMean()
 model.addSD()
 model.normalize()
+
+
+model.mean()
+model.variance()
+
+model.t_test()
+
+model.checkData()
 
 #model.checkData()
 
@@ -104,10 +119,11 @@ model.normalize()
 
 #model.add_outlier_Z()
 
-model.sample()
+#model.variance()
+
+#model.sample()
 
 #model.checkData()
-
 
 
 

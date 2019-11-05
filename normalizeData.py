@@ -33,14 +33,8 @@ print(normalizedA, normalizedD)
 data = None
 numbersOnly = None
 dataSetA = None
-dataSetB = None
-dataSetC = None
 dataSetD = None
 standardDeviationA = None
-standardDeviationB = None
-standardDeviationC = None
 standardDeviationD = None
 meanA = None
-meanB = None
-meanC = None
 meanD = None

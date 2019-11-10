@@ -1,7 +1,10 @@
 import pandas as pd
 from scipy.stats import ttest_ind
 import numpy as np
+import matplotlib.cm as cm
 import math
+import matplotlib.pyplot as plt
+
 #import seaborn as sns
 class Model:
 
@@ -44,7 +47,38 @@ class Model:
 		self._data['D_MEAN'] = self._data[['D_1','D_2','D_3']].mean(axis=1)
 		self._data['FC'] = np.log2(self._data['D_MEAN']/self._data['A_MEAN'])
 		self._data['t_test']=ttest_ind(self._data.loc[:,['A_1','A_2','A_3']],self._data.loc[:,['D_1','D_2','D_3']], axis=1)[0]
-		self._data['p_value']=ttest_ind(self._data.loc[:,['A_1','A_2','A_3']],self._data.loc[:,['D_1','D_2','D_3']], axis=1)[1]
+		self._data['p_value']=np.log10(ttest_ind(self._data.loc[:,['A_1','A_2','A_3']],self._data.loc[:,['D_1','D_2','D_3']], axis=1)[1])
+		self._data['p_value']=-self._data['p_value']
+
+	def volcano_plot(self):
+		labels = self._data['gene_short_name']
+		x = self._data['FC']
+		y = self._data['p_value']
+		clrs = []
+		genes_in_threshold=[]
+		count=0
+		for i in range(0, len(x)):
+			if x[i]>2 or x[i]<-2:
+				if y[i] > 1.3:
+					count+=1
+					genes_in_threshold.append(labels[i])
+					clrs.append(1)
+				else:
+					clrs.append(0)
+			else:
+				clrs.append(0)
+		area = np.pi*1
+		print(genes_in_threshold)
+		fig, ax = plt.subplots(figsize=(20, 20))
+		colors = ['#2300A8', '#00A658']
+		ax.scatter(x, y, alpha=0.70, c=clrs, cmap=cm.brg)
+		ax.set_title('GMB 0.3')
+		ax.set_xlabel('log2(Fold Change)')
+		ax.set_ylabel('log10(1/p_value)')
+		ax.spines['top'].set_visible(False)
+		ax.spines['right'].set_visible(False)
+		ax.grid(color='grey', linestyle='-', linewidth=0.25, alpha=0.5)
+		plt.show()
 
 	def order(self):
 		a_var = self._data['A_normalize'].mean()
@@ -118,7 +152,8 @@ model.mean()
 model.variance()
 #model.t_test()
 model.mean_t_test_p_value()
-model.checkData()
+#model.checkData()
+model.volcano_plot()
 
 #model.checkData()
 

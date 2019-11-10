@@ -16,15 +16,15 @@ def calculateT(D, sqD, n):
     denominatorsdenominator = (n - 1) * n
     finalDenominator = (denominatorsNumerator / denominatorsdenominator) ** 0.5
     t = numerator / finalDenominator
-    return t;
+    return t
 
 
 def getTScore(column1: np.array, column2: np.array):
-    column2SubtractedFromColumn1 = np.subtract(column1, column2);
-    sumOfDifference = np.sum(column2SubtractedFromColumn1);
-    squareOfColumn2SubtractedFromColumn1 = np.power(column2SubtractedFromColumn1, 2);
-    sumOfSquareOfDifference = np.sum(squareOfColumn2SubtractedFromColumn1);
-    t = calculateT(sumOfDifference, sumOfSquareOfDifference, len(column1));
+    column2SubtractedFromColumn1 = np.subtract(column1, column2)
+    sumOfDifference = np.sum(column2SubtractedFromColumn1)
+    squareOfColumn2SubtractedFromColumn1 = np.power(column2SubtractedFromColumn1, 2)
+    sumOfSquareOfDifference = np.sum(squareOfColumn2SubtractedFromColumn1)
+    t = calculateT(sumOfDifference, sumOfSquareOfDifference, len(column1))
     return t
 
 

@@ -1,5 +1,7 @@
 import pandas as pd
 from scipy.stats import ttest_ind
+import numpy as np
+import math
 #import seaborn as sns
 class Model:
 
@@ -36,6 +38,13 @@ class Model:
 		self._data['B_normalize'] = self._data['B_SD']/self._data['mean_per_gene']
 		self._data['C_normalize'] = self._data['C_SD']/self._data['mean_per_gene']
 		self._data['D_normalize'] = self._data['D_SD']/self._data['mean_per_gene']
+
+	def mean_t_test_p_value(self):
+		self._data['A_MEAN'] = self._data[['A_1','A_2','A_3']].mean(axis=1)
+		self._data['D_MEAN'] = self._data[['D_1','D_2','D_3']].mean(axis=1)
+		self._data['FC'] = np.log2(self._data['D_MEAN']/self._data['A_MEAN'])
+		self._data['t_test']=ttest_ind(self._data.loc[:,['A_1','A_2','A_3']],self._data.loc[:,['D_1','D_2','D_3']], axis=1)[0]
+		self._data['p_value']=ttest_ind(self._data.loc[:,['A_1','A_2','A_3']],self._data.loc[:,['D_1','D_2','D_3']], axis=1)[1]
 
 	def order(self):
 		a_var = self._data['A_normalize'].mean()
@@ -95,7 +104,7 @@ class Model:
 
 	def t_test(self):
 		self._data['T_mean'] = abs(self._data['A_mean']-self._data['D_mean'])/(((self._data['A_variance']))+(self._data['D_variance'])/3)**(0.5)
-		self._data.sort_values(by="T_mean")
+		#self._data.sort_values(by="T_mean")
 
 dataset = "Simulated_data_ageing.csv"
 model = Model(dataset)
@@ -107,9 +116,8 @@ model.normalize()
 
 model.mean()
 model.variance()
-
-model.t_test()
-
+#model.t_test()
+model.mean_t_test_p_value()
 model.checkData()
 
 #model.checkData()
